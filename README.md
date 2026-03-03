@@ -6,7 +6,7 @@
 This project analyzes customer churn behavior using SQL. The objective was to identify key
 drivers of churn and quantify revenue impact.
 
-##🎯 Business Objectives
+## 🎯 Business Objectives
 
 ● Measure overall churn rate
 
@@ -16,7 +16,7 @@ drivers of churn and quantify revenue impact.
 
 ● Develop a predictive risk scoring model
 
-##🗂 Dataset
+## 🗂 Dataset
 The dataset includes:
 
 ● Customer demographics
@@ -31,9 +31,9 @@ The dataset includes:
 
 ● Geographic information
 
-##🔍 Key Analysis Performed
+## 🔍 Key Analysis Performed
 
-###1️⃣Churn Rate Analysis
+### 1️⃣Churn Rate Analysis
 
 ● Overall churn rate: 26.99%
 
@@ -41,17 +41,17 @@ The dataset includes:
 
 ● Two-Year churn rate: 2.73%
 
-###2️⃣Revenue Impact
+### 2️⃣Revenue Impact
 
 ● Revenue lost due to churn: 17.52%
 
 ● High-revenue customers churn less frequently
 
-###3️⃣Geographic Risk Analysis
+### 3️⃣Geographic Risk Analysis
 
 ● Highest churn state: Jammu & Kashmir (57%)
 
-###4️⃣Predictive Risk Model
+### 4️⃣Predictive Risk Model
 
 Built a rule-based churn scoring model using:
 ● Contract type
@@ -60,7 +60,7 @@ Built a rule-based churn scoring model using:
 
 ● State risk
 
-##🛠 SQL Techniques Used
+## 🛠 SQL Techniques Used
 
 ● CASE statements
 
@@ -72,7 +72,7 @@ Built a rule-based churn scoring model using:
 
 ● Risk scoring logic
 
-##📊 Business Insights
+## 📊 Business Insights
 
 ● Contract type is the strongest churn driver.
 
@@ -82,7 +82,7 @@ Built a rule-based churn scoring model using:
 
 ● Certain states require targeted retention strategies.
 
-##🚀 Strategic Recommendations
+## 🚀 Strategic Recommendations
 
 ● Incentivize long-term contracts
 
