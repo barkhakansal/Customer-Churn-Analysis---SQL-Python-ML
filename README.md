@@ -7,9 +7,13 @@ This project analyzes customer churn behavior using SQL. The objective was to id
 drivers of churn and quantify revenue impact.
 
 🎯 Business Objectives
+
 ● Measure overall churn rate
+
 ● Identify high-risk customer segments
+
 ● Analyze revenue loss due to churn
+
 ● Develop a predictive risk scoring model
 
 🗂 Dataset
