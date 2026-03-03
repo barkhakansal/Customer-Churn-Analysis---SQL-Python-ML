@@ -14,6 +14,7 @@ drivers of churn and quantify revenue impact.
 
 🗂 Dataset
 The dataset includes:
+
 ● Customer demographics
 ● Contract type
 ● Tenure
