@@ -17,7 +17,7 @@ def load_data():
 df = load_data()
 
 def ai_answer(question):
-    data_sample = df.head(20).to_string(index=False)
+    data_sample = df.to_string(index=False)
 
     prompt = f"""
 You are a helpful data analyst.
