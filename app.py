@@ -8,7 +8,7 @@ st.title("🤖 AI Customer Churn Agent")
 st.caption("Ask questions about customer churn using AI-powered insights")
 
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
-model = genai.GenerativeModel("gemini-1.5-flash")
+model = genai.GenerativeModel("gemini-2.5-flash")
 
 @st.cache_data
 def load_data():
