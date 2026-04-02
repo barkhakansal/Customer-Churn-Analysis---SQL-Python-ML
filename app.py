@@ -17,23 +17,31 @@ def load_data():
 df = load_data()
 
 def ai_answer(question):
-    data_sample = df.head(20).to_string(index=False)
-    summary = f"Total predicted churn customers: {len(df)}"
-
+    # 1. Give it the "Big Picture" (Math summary of the whole file)
+    full_stats = df.describe(include='all').to_string()
+    
+    # 2. Give it a look at the actual data (first 15 rows)
+    data_sample = df.head(15).to_string(index=False)
+    
+    # 3. The 'System' Instructions
     prompt = f"""
-You are a helpful data analyst.
+ROLE: You are an expert Retention Strategist and Data Scientist.
 
-This dataset contains customers predicted to churn in the future.
-It is not the full customer dataset. It is only the model output of high-risk customers.
+CONTEXT:
+- Total high-risk customers: {len(df)}
+- Below is the statistical summary of the ENTIRE churn dataset:
+{full_stats}
 
-{summary}
-
-Sample rows from the predicted churn dataset:
+- Here are the specific details for the first 15 customers:
 {data_sample}
 
-Answer the user's question clearly and briefly based only on this predicted churn dataset.
-If the user asks who will churn, refer to these predicted high-risk customers.
-Question: {question}
+INSTRUCTIONS:
+1. Use the 'Statistical Summary' to answer big-picture questions (averages, totals, trends).
+2. Use the 'Sample Rows' only to give specific examples of customers.
+3. If the answer is not in the data provided, say "I don't have enough data to answer that" instead of guessing.
+4. Keep your answer professional, data-driven, and brief.
+
+USER QUESTION: {question}
 """
 
     try:
