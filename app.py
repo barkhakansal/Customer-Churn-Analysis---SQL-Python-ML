@@ -7,7 +7,7 @@ st.set_page_config(page_title="AI Churn Agent", layout="wide")
 st.title("🤖 AI Customer Churn Agent")
 st.caption("Ask questions about customer churn using AI-powered insights")
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
 @st.cache_data
 def load_data():
