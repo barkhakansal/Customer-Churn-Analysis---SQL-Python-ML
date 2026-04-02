@@ -1,84 +1,64 @@
 import streamlit as st
 import pandas as pd
+from openai import OpenAI
+import os
 
-# -------------------------------
-# Page Setup
-# -------------------------------
 st.set_page_config(page_title="AI Churn Agent", layout="wide")
-
 st.title("🤖 AI Customer Churn Agent")
 st.caption("Ask questions about customer churn using AI-powered insights")
 
-# -------------------------------
-# Load Data
-# -------------------------------
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
 @st.cache_data
 def load_data():
     return pd.read_csv("prediction.csv")
 
-df_pred = load_data()
+df = load_data()
 
-# -------------------------------
-# Sample Values (Replace if needed)
-# -------------------------------
-churn_rate = 26.99
+def ai_answer(question):
+    data_sample = df.head(20).to_string(index=False)
 
-df_imp = pd.DataFrame({
-    "Feature": ["Contract", "Tenure", "Monthly Charge", "Internet Type", "Payment Method"],
-    "Importance": [0.18, 0.15, 0.12, 0.10, 0.08]
-})
+    prompt = f"""
+You are a data analyst.
 
-# -------------------------------
-# AI Agent Function
-# -------------------------------
-def answer_question(q):
-    q = q.lower()
+Here is a sample of the customer churn dataset:
+{data_sample}
 
-    if "accuracy" in q:
-        st.success("✅ Model accuracy is 84%.")
+Answer the user's question clearly based on this dataset.
+If the question asks about customers likely to churn, refer to the rows shown in the dataset.
+Question: {question}
+"""
 
-    elif "churn rate" in q:
-        st.info(f"📊 Churn rate is {churn_rate}%")
+    response = client.chat.completions.create(
+        model="gpt-4.1-mini",
+        messages=[
+            {"role": "system", "content": "You are a helpful data analyst."},
+            {"role": "user", "content": prompt}
+        ]
+    )
 
-    elif "important features" in q:
-        st.subheader("🔍 Top Features Influencing Churn")
-        st.dataframe(df_imp)
+    return response.choices[0].message.content
 
-    elif "who will churn" in q:
-        st.subheader("⚠️ High-Risk Customers")
-        result = df_pred[['Customer_ID', 'Monthly_Charge', 'Tenure_in_Months', 'Customer_Status_Predicted']].head(10)
-        st.dataframe(result)
-
-    else:
-        st.warning("Try asking: churn rate, accuracy, important features, or who will churn")
-
-# -------------------------------
-# Buttons Section
-# -------------------------------
 st.subheader("💡 Quick Questions")
 
 col1, col2 = st.columns(2)
 
 with col1:
-    if st.button("📊 Churn Rate"):
-        answer_question("churn rate")
-
-    if st.button("🎯 Model Accuracy"):
-        answer_question("accuracy")
-
-with col2:
-    if st.button("🔍 Important Features"):
-        answer_question("important features")
+    if st.button("📊 Churn Summary"):
+        st.write(ai_answer("Summarize churn trends in this dataset."))
 
     if st.button("⚠️ Who Will Churn"):
-        answer_question("who will churn")
+        st.write(ai_answer("Which customers are likely to churn?"))
 
-# -------------------------------
-# Custom Question Input
-# -------------------------------
+with col2:
+    if st.button("💵 High Charges"):
+        st.write(ai_answer("Which customers have high monthly charges?"))
+
+    if st.button("📈 Key Patterns"):
+        st.write(ai_answer("What important patterns do you see in this dataset?"))
+
 st.subheader("✍️ Ask Your Own Question")
+question = st.text_input("Type your question here:")
 
-custom_question = st.text_input("Type your question here:")
-
-if custom_question:
-    answer_question(custom_question)
+if question:
+    st.write(ai_answer(question))
