@@ -14,7 +14,7 @@ st.caption("Ask questions about customer churn using AI-powered insights")
 # -------------------------------
 @st.cache_data
 def load_data():
-    return pd.read_csv(r"C:\Users\barkh\OneDrive\Desktop\Customer Churn Analysis\prediction.csv")
+    return pd.read_csv("prediction.csv")
 
 df_pred = load_data()
 
