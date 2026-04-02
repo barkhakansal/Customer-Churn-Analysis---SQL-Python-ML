@@ -1,13 +1,14 @@
 import streamlit as st
 import pandas as pd
-from openai import OpenAI
+import google.generativeai as genai
 
 st.set_page_config(page_title="AI Churn Agent", layout="wide")
 
 st.title("🤖 AI Customer Churn Agent")
 st.caption("Ask questions about customer churn using AI-powered insights")
 
-client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
+model = genai.GenerativeModel("gemini-1.5-flash")
 
 @st.cache_data
 def load_data():
@@ -19,25 +20,21 @@ def ai_answer(question):
     data_sample = df.head(20).to_string(index=False)
 
     prompt = f"""
-You are a data analyst.
+You are a helpful data analyst.
 
-Here is a sample of the customer churn dataset:
+Here is a sample of a customer churn dataset:
 {data_sample}
 
-Answer the user's question clearly based on this dataset.
-If the question asks about customers likely to churn, refer to the rows shown in the dataset.
+Answer the user's question clearly and briefly based on this dataset.
+If the user asks who is likely to churn, use the rows shown in the dataset sample.
 Question: {question}
 """
 
-    response = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[
-            {"role": "system", "content": "You are a helpful data analyst."},
-            {"role": "user", "content": prompt}
-        ]
-    )
-
-    return response.choices[0].message.content
+    try:
+        response = model.generate_content(prompt)
+        return response.text
+    except Exception as e:
+        return f"Gemini error: {str(e)}"
 
 st.subheader("💡 Quick Questions")
 
