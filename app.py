@@ -1,9 +1,9 @@
 import streamlit as st
 import pandas as pd
 from openai import OpenAI
-import os
 
 st.set_page_config(page_title="AI Churn Agent", layout="wide")
+
 st.title("🤖 AI Customer Churn Agent")
 st.caption("Ask questions about customer churn using AI-powered insights")
 
